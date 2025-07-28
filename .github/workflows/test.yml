@@ -14,26 +14,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Set up Docker Compose (v2 CLI)
-        run: sudo apt-get update && sudo apt-get install docker-compose-plugin -y
-
       - name: Validate Docker Compose file
-        run: docker compose config
+        run: docker compose -f docker-compose.yml config
 
       - name: Start containers
         run: |
-          docker compose up -d --build
+          docker compose -f docker-compose.yml up -d --build
           echo "Waiting for services to start..."
-          sleep 15  # Optional: adjust based on your service startup time
+          sleep 15
 
       - name: Check running containers
         run: docker ps
 
-      # Optional: Add health checks or curl requests here
-
       - name: Stop containers
         if: always()
-        run: docker compose down
+        run: docker compose -f docker-compose.yml down
