@@ -19,17 +19,17 @@ jobs:
 
       - name: Run Docker Compose
         run: |
-          docker-compose up -d
+          docker compose up -d
           echo "Waiting for services to be healthy..."
           sleep 60
 
       - name: Check service health
         run: |
           docker ps
-          docker-compose ps
+          docker compose ps
           echo "Checking Debezium Connect health..."
           curl --retry 10 --retry-delay 5 --fail http://localhost:8093/connectors || exit 1
 
       - name: Tear down containers
         if: always()
-        run: docker-compose down -v
+        run: docker compose down -v
