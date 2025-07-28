@@ -2,9 +2,9 @@ name: Test Docker Compose
 
 on:
   push:
-    branches: [master]
+    branches: [master, main]
   pull_request:
-    branches: [main]
+    branches: [master, main]
 
 jobs:
   docker-compose-test:
@@ -19,17 +19,21 @@ jobs:
 
       - name: Run Docker Compose
         run: |
-          docker compose up -d
-          echo "Waiting for services to be healthy..."
-          sleep 60
+          docker compose up -d --build
+          echo "Waiting for services to start..."
+          sleep 30
 
       - name: Check service health
         run: |
-          docker ps
-          docker compose ps
+          docker ps -a
+          docker compose ps -a
           echo "Checking Debezium Connect health..."
-          curl --retry 10 --retry-delay 5 --fail http://localhost:8093/connectors || exit 1
+          curl --retry 5 --retry-delay 10 --retry-max-time 60 --fail http://localhost:8093/connectors || exit 1
+
+      - name: View logs if health check fails
+        if: failure()
+        run: docker compose logs
 
       - name: Tear down containers
         if: always()
-        run: docker compose down -v
+        run: docker compose down -v --remove-orphans
