@@ -1,4 +1,4 @@
-# 🛰️ Real-time Change Data Capture (CDC) Pipeline
+#  Real-time Change Data Capture (CDC) Pipeline
 
 ## Overview
 
@@ -25,22 +25,22 @@ This project simulates such a system — starting from an external data source a
 
 The CDC pipeline consists of several key components:
 
-### 🔄 1. Data Source – Flight API
+###  1. Data Source – Flight API
 A live aviation API (e.g., OpenSky) continuously provides real-time flight data such as aircraft positions and statuses. This data simulates the operational system of a business (e.g., a realtime flights data coming from sensors etc).
 
-### 🗄️ 2. PostgreSQL
+###  2. PostgreSQL
 The API ingests data into a transactional PostgreSQL database. It behaves like a source-of-truth OLTP system where inserts/updates/deletes occur frequently.
 
-### 🔁 3. Debezium + Kafka
+###  3. Debezium + Kafka
 Debezium monitors the PostgreSQL write-ahead log (WAL) and captures row-level changes in real time. These changes are streamed into Kafka topics for further processing.
 
-### 🔌 4. Kafka Connect + Snowflake Sink Connector
+###  4. Kafka Connect + Snowflake Sink Connector
 Kafka Connect reads change records from Kafka topics and streams them into Snowflake using the official Snowpipe streaming. The data lands in analytical tables, ready for querying.
 
-### 🧊 5. Snowflake
+###  5. Snowflake
 Snowflake acts as the real-time analytical engine. As changes propagate from the source, Snowflake remains consistently up to date with the latest state of the operational data.
 
-### ⚙️ 6. GitHub Actions
+###  6. GitHub Actions
 All relevant scripts (e.g., Snowflake DDLs, connectors) are managed via GitHub Actions to automate deployment and integration workflows.
 
 ---
@@ -58,7 +58,7 @@ All relevant scripts (e.g., Snowflake DDLs, connectors) are managed via GitHub A
 | Containerization    | Docker Compose                    |
 | CI/CD               | GitHub Actions                    |
 
-> 💡 **Note:** While this project was implemented in a local environment to avoid cloud infrastructure costs, it can be fully migrated to **AWS** using managed services such as:
+>  **Note:** While this project was implemented in a local environment to avoid cloud infrastructure costs, it can be fully migrated to **AWS** using managed services such as:
 >
 > - Amazon RDS (for PostgreSQL)
 > - Amazon MSK (Managed Kafka)
