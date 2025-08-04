@@ -204,9 +204,3 @@ Data Latency Check:
 The real-time data system exhibits a latency of approximately 9.51 seconds. While not instantaneous, this lag of around 9 seconds might be acceptable depending on the specific application's requirements, but it could still impact use cases demanding near-instantaneous data.
 <br>
 ---
-
-## Author
-
-**Muhammad Azeem Khan**  
-Full Stack Data Engineer 
-[[LinkedIn](https://www.linkedin.com/in/mazeemkhanreal/)] | [[Website](https://mazeemkhanreal.github.io/resume/)] | [mazeemkhanq@gmail.com]
