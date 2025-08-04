@@ -1,0 +1,30 @@
+{
+  "name": "snowflake-people-connector",
+  "config": {
+    "connector.class": "com.snowflake.kafka.connector.SnowflakeSinkConnector",
+    "tasks.max": "1",
+
+    "topics": "cdc.public.people",
+
+    "snowflake.url.name": "acddgjc-fj86956.snowflakecomputing.com",
+    "snowflake.user.name": "kafka_connector_user",
+    "snowflake.private.key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCQqG3V/PKTlKya\ngH+habLujg38JgHjjI1rYgGm4wNXP6WanQosDonaQbzB/xD1a6DHJvCpSGjhzSQB\nHNLa3x3n1GaDXSISsGBF8JF/soFH1FEzWxgAz0XOjQBG4z5NFjr9t0g1YlwSpsLE\nJ1j/JwG5gATrZvhtjVO7sbRtDNEqeyjODHVnhbbfEA6mn+Ht/F/hQIPEbxZKg86c\n9sPzabhqwcXHwY/yLNtYVOKseGwTXB2aTUyuRKEYTrm6iWDL1u82cOZf3cbPAdYx\nmZLAx9/GB9H/W/eyFxdkdHfsvVIxJjWZz75GY0bSVABmt2Hq53/SlvKDPjKoBapa\ndY2lx5rLAgMBAAECggEAKMT3c7xfB536yW6WygC2t8ocgeiaVq3pu457JbRMYD4l\nZ76Du+f7DSLC1rAS8QA853P/ls48FQuSbqfXe20vigOQQsywSjEgaQXElAdUrVBW\n9FDjonLIW07c+Z2ZFPPDe3c46CbJCU6rjMoEKKEvOL8uY8P5FzMiGr+aOLPIjZ6M\n3y2R0HZUx6oHiUGRWKHyFzVe/U/l8tFPqjTduygbVFf+oxfHG5jKr1XjZquMhBhV\ndRLI3J/BF4wUbWfQ3qSVeiVZhRWhxM9KIKHAgC5YGICWOTi+9+lX+/7GqLtrzR2d\nPo9MyxM6S8OPTgwkaqsDUI8i9/WdXUz284bG0+wAoQKBgQDFXoUhYuvO7X3MEyjb\niUp9JBqxyYBTUNg7bsqZEokzU2XrnMe8G4A0GDbB4O/vJwxWTh3cdTYEcLffLFym\nprIA/q5evQ7k3x2AzD592Kee/2j3qQks784QytKZeOYWCDcir+9N4QsnO/Ko7Is4\nLCnnxwIeK6OQzoGQ4nGy1UJh6wKBgQC7oVXK+jYOQKil5HQ82mrJvYXBiGjX4Uex\nilHlJhT63eQYfquZZl5lbYddBANaj/N6PpssLcQ8i6/UZtnHTHq6lFUzSQkDX/9K\nwm8SonfUhJwq+FUo0TVFFwM7nnAsCk+/t4XfkXQEr3Y4gzzWSkM9FqDflM7xK9iu\n5l1fBZCSoQKBgQC5S7wBVDW+2Ai6h2JcedCNHFBTibIIhmX7plBe1aApp6qQQWjj\nmY4LWpBOBTg9dpOGk2BFkWVdVdXKmIODkgycEn7yQtyw0yeHvDkPPVBhXbjWisQq\nhBkaetCtdWvOU3gwAKzSmO03sHhpT2qFGjFdgODkImQ1lyrdMzs7giwIcQKBgQC1\nxQyaQWAQ2q8HV5UMRwThQEvOO9pmGYcdBkVkW0pD5qbM3Bpd2ABm/n7+q56cI4za\nxsAJQqUzipfii2k7XGohSwZnUr/6lwt5X3e/c8nnBjlMn5vQmSykLDEjltBQugSc\nVKzK89yTlXBQO0O6zeLp0Xw0XbNFjRa0CdQ28+slQQKBgDUtDPpev/p1/eG9bpc+\nTCHyoMtUxq+HkWv4gOSgqL7UIEio3RD0m4Qa1hMSWfp2G1ROztsa4HrqmgQcYzXC\nO+Gx/40zEn3dZG0iT2aKNrrxNtV27BpN/rH5ioe9eoXSYFvRdcY67pSqUlpscDoH\n7iU6I6rS8nc4+aoKz+KEdcmL\n-----END PRIVATE KEY-----\n",
+
+    "snowflake.database.name": "PEOPLE",
+    "snowflake.schema.name": "PUBLIC",
+    "snowflake.role.name": "KAFKA_CONNECTOR_ROLE",
+
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+
+    "snowflake.topic2table.map": "cdc.public.people:people",
+
+    "errors.tolerance": "all",
+    "errors.log.enable": "true",
+    "errors.log.include.messages": "true",
+
+    "snowflake.ingestion.method": "SNOWPIPE_STREAMING"
+  }
+}
