@@ -1,6 +1,9 @@
+version: '3.8'
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
+    platform: linux/amd64
     hostname: zookeeper
     container_name: zookeeper
     ports:
@@ -15,9 +18,11 @@ services:
       interval: 10s
     networks:
       - realtime
+
   broker:
     image: confluentinc/cp-kafka:7.4.0
-    hostname: brroker
+    platform: linux/amd64
+    hostname: broker
     container_name: broker
     ports:
       - '29092:29092'
@@ -43,8 +48,10 @@ services:
       retries: 10
     networks:
       - realtime
+
   control-center:
     image: confluentinc/cp-enterprise-control-center:7.4.0
+    platform: linux/amd64
     hostname: control-center
     container_name: control-center
     depends_on:
@@ -67,8 +74,10 @@ services:
       retries: 5
     networks:
       - realtime
+
   debezium:
     image: debezium/connect:2.5
+    platform: linux/amd64
     container_name: debezium
     hostname: debezium
     depends_on:
@@ -77,9 +86,9 @@ services:
       broker:
         condition: service_healthy
     ports:
-      - '8093:8093'
+      - '8093:8083'
     volumes:
-      - ./kafka-plugins/snowflake-kafka-connector-2.0.0.jar:/kafka/connect/snowflake-kafka-connector-2.0.0.jar
+      - ./kafka-plugins:/kafka/connect-plugins
     environment:
       BOOTSTRAP_SERVERS: broker:29092
       CONNECT_REST_ADVERTISED_HOST_NAME: debezium
@@ -90,6 +99,7 @@ services:
       KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       ENABLE_DEBEZIUM_SCRIPTING: 'true'
+      PLUGIN_PATH: /kafka/connect,/kafka/connect-plugins
     healthcheck:
       test: [ 'CMD', 'curl', '--silent', '--fail', '-X', 'GET', 'http://localhost:8083/connectors' ]
       start_period: 10s
@@ -101,6 +111,7 @@ services:
 
   debezium-ui:
     image: debezium/debezium-ui:2.4
+    platform: linux/amd64
     container_name: debezium-ui
     hostname: debezium-ui
     depends_on:
@@ -112,8 +123,10 @@ services:
       KAFKA_CONNECT_URIS: http://debezium:8083
     networks:
       - realtime
+
   postgres:
     image: postgres:15
+    platform: linux/amd64
     container_name: postgres
     hostname: postgres
     ports:
@@ -121,7 +134,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: flights
+      POSTGRES_DB: test
+    volumes:
+      - ./postgres_init.sql:/docker-entrypoint-initdb.d/init.sql
     command: [ 'postgres', '-c', 'wal_level=logical' ]
     healthcheck:
       test: [ 'CMD', 'psql', '-U', 'postgres', '-c', 'SELECT 1' ]
@@ -130,9 +145,19 @@ services:
       retries: 5
     networks:
       - realtime
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_sink
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+
 
 networks:
   realtime:
     name: realtime
-    driver: bridge   
-      
+    driver: bridge
